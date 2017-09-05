@@ -19,8 +19,8 @@ def find_and_replace(str, word, repl):
 #Min and Max
 def min_and_max(list):
     '''Prints the max and min values of a given list'''
-    maxi = max(list)
-    mini = min(list)
+    maxi = max(list) #finds max value
+    mini = min(list) #finds min value
     print "The maximum value in the list is", maxi,"and the minimum value is", mini
     return
 
@@ -32,10 +32,10 @@ some = ['a',24,True,'rock',743]
 #First and Last
 def first_and_last(list):
     '''Prints the first and last values of a list and returns a list holding only the first and last values of the given list '''
-    firsty = list[0]
-    lasty = list[len(list)-1]
+    firsty = list[0] #first value in the list
+    lasty = list[len(list)-1] #last value in the list
     print "The first and last values in the list are", firsty, "&", lasty
-    return [firsty, lasty]
+    return [firsty, lasty] #returns array of just the first and last values
 
 # x = ["hello",2,54,-2,7,12,98,"world"]
 # first_and_last(x)
@@ -45,10 +45,10 @@ def first_and_last(list):
 def new_list(listy):
     '''Sorts the given list into ascending order, then creates a new list consisting of a list of half of the original list as the first value, and each remaining value in the original list as the other values in the list '''
     new_list = []
-    listy.sort()
-    half = len(listy)/2
-    new_list.append(listy[0:half])
-    for i in range(half,len(listy)):
+    listy.sort() #sorts list into ascending order
+    half = len(listy)/2 #finds the halfway point of the original list
+    new_list.append(listy[0:half]) #adds the first half of the list to the new list as a single value
+    for i in range(half,len(listy)): #iterates through the rest of the original list values
         new_list.append(listy[i])
     return new_list
 
