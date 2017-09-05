@@ -9,7 +9,6 @@ def print_odds(start,end):
 
 start = 1
 end = 1000
-multiple = 5
 
 # print_odds(start,end)
 
@@ -20,4 +19,16 @@ def print_multiples(start,end,multiple):
         if (i%multiple is 0): #checks if number is multiple and if true, prints
             print i
 
-print_multiples (start,end,multiple)
+multiple = 5
+# print_multiples (start,end,multiple)
+
+
+def sum_list_vals(listy):
+    '''Prints the sum of all values in the given list'''
+    valsum = 0
+    for val in listy: #iterates through list, adding to the sum
+        valsum += val
+    print "The sum of all values in this list is",valsum
+
+# a = [1, 2, 5, 10, 255, 3]
+# sum_list_vals(a)
