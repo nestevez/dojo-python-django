@@ -24,5 +24,17 @@ def min_and_max(list):
     print "The maximum value in the list is", maxi,"and the minimum value is", mini
     return
 
-# some = ['a',24,True,'rock',743]
-# min_and_max(some)
+some = ['a',24,True,'rock',743]
+# x = [2,54,-2,7,12,98]
+# min_and_max(x)
+
+
+#First and Last
+def first_and_last(list):
+    firsty = list[0]
+    lasty = list[len(list)-1]
+    print "The first and last values in the list are", firsty, "&", lasty
+    return [firsty, lasty]
+
+x = ["hello",2,54,-2,7,12,98,"world"]
+first_and_last(x)
