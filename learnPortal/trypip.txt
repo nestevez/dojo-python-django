@@ -1,0 +1,101 @@
+pip install Django:
+	Output:
+		Collecting Django
+ 		  Downloading Django-1.11.4-py2.py3-none-any.whl (6.9MB)
+		Collecting pytz (from Django)
+		  Downloading pytz-2017.2-py2.py3-none-any.whl (484kB)
+		Installing collected packages: pytz, Django
+		Successfully installed Django-1.11.4 pytz-2017.2
+	Meaning: 
+		We use pip install to install any packages necessary for use with Python. 
+		Pip install works in 4 steps where it finds out what the package requirements are, checks for dependencies and gathers the necessary items into a wheel (a packaging format), for installation. Pip then proceeds to install the package.
+	Output Breakdown by Line:
+		Gathering dependencies for Django
+		Downloading the Django wheel
+		Gathering dependencies for pytz, required by Django
+		Downloading pytz wheel
+		Installing both packages
+		Success indication
+
+ 
+pip list:
+	Output:
+		DEPRECATION: The default format will switch to columns in the future. You can use --format=(legacy|columns) (or define a format=(legacy|columns) in your pip.conf under the [list] section) to disable this warning.
+		Django (1.11.4)
+		pip (9.0.1)
+		pytz (2017.2)
+		setuptools (28.8.0)
+	Meaning:
+		Pip list shows packages that have been installed in alphabetical order
+	Output Breakdown by Line:
+		Note about changes to pip list command
+		Packages 
+		.
+		.
+		installed
+
+pip install Django:
+	Output:
+		Requirement already satisfied: Django in c:\python27\lib\site-packages
+		Requirement already satisfied: pytz in c:\python27\lib\site-packages (from Django)
+	Meaning:
+		Running the pip install again confirms the package has been installed and all requirements met
+	Output Breakdown by Line:
+		Confirmation of Django installation
+		Confirmation of pytz installation
+
+pip freeze:
+	Output:
+		Django==1.11.4
+		pytz==2017.2
+	Meaning:
+		Like pip list, pip freeze shows installed packages. Unlike pip list, freeze outputs the packages and versions in a format that can be used for a file listing requirements. It can also be used to create the requirement file.
+	Output Breakdown by Line:
+		Package & version
+		Package & version
+
+pip uninstall Django:
+	Output:
+		(listing of every file removed from my computer...)
+	Meaning:
+		Pip uninstall removes almost any installed packages. It removes any associated files as well.
+	Output Breakdown by Line:
+		Files removed...
+
+pip show Django:
+	Output:
+		Name: Django
+		Version: 1.11.4
+		Summary: A high-level Python Web framework that encourages rapid development and clean, pragmatic design.
+		Home-page: https://www.djangoproject.com/
+		Author: Django Software Foundation
+		Author-email: foundation@djangoproject.com
+		License: BSD
+		Location: c:\python27\lib\site-packages
+		Requires: pytz
+	Meaning:
+		Pip show lists information about specified installed packages. Information includes name, version, description, home page, author, author's email, licence, location and requitements. Using a flag adds capability to display more detailed information.
+	Output Breakdown by Line:
+		(Information tag : information)
+
+pip search Flask:
+	Output:
+		.
+		.
+		.
+		Flask-Debug-API (0.1.0)                        - API Browser for Flask-DebugToolbar
+		Flask-API-Utils (1.0.2)                        - Flask-API-Utils helps you to create APIs.
+		api-star (0.1.4)                               - An API framework for Flask & Falcon.
+		flask-simple-api (1.4.1)                       - Simple API endpoints for Flask using Flask-Restful reqparse and Python 3 annotations
+		Flask-API (1.0)                                - Browsable web APIs for Flask.
+		li-api-flask (0.1.17)                          - Loja Integrada's API Flask
+		Flask-API.yandex (0.6.2.1)                     - Browsable web APIs for Flask.
+		apiaiwebhook (0.1.0.dev2)                      - API.AI Webhook is a fulfillment microframework for API.AI based on Flask for getting started quickly with API.AI webhooks.
+		Flask-APIBlueprint (1.0.0)                     - Route inheritance for Flask Blueprints
+		.
+		.
+		.
+	Meaning:
+		Pip search looks for packages containing the input given in the name or summary and lists them with a short summary.
+	Output Breakdown by Line:
+		(package name (version) -summary)
