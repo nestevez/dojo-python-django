@@ -3,9 +3,10 @@ import string
 
 #Find and Replace
 def find_and_replace(str, word, repl):
-    pos = string.find(str,word)
+    ''' Finds the given word (word) within the string (str) and replaces it with the second word (repl). Prints the index for the first appearance of the word and returns the new string with the replaced words '''
+    pos = string.find(str,word) #finds first position of word in the string
     print "The first time", word, "appears in the string is at index", pos
-    return string.replace(str, word, repl)
+    return string.replace(str, word, repl) #creates new string, replacing the word with the substitute
 
 stringy = "It's thanksgiving day. It's my birthday,too!"
 lookfor = 'day'
