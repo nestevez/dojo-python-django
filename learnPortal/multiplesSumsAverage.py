@@ -23,12 +23,25 @@ multiple = 5
 # print_multiples (start,end,multiple)
 
 
-def sum_list_vals(listy):
+def sum_list(listy):
     '''Prints the sum of all values in the given list'''
     valsum = 0
     for val in listy: #iterates through list, adding to the sum
         valsum += val
     print "The sum of all values in this list is",valsum
 
-# a = [1, 2, 5, 10, 255, 3]
-# sum_list_vals(a)
+a = [1, 2, 5, 10, 255, 3]
+sum_list(a)
+
+
+def avg_list(listy):
+    '''Prints the average of values in the given list'''
+    #sums all values as per sum_list function
+    valsum=0
+    for val in listy:
+        valsum += val
+        #finds average by dividing sum by number of items in list
+        avg=valsum/len(listy)
+    print "The average of the values in this list is",avg
+
+avg_list(a)
