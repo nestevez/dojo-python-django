@@ -6,9 +6,9 @@ def odd_even(start,end):
         else:
             print "Number is", i,". This is an even number."
 
-start = 0
-end = 2
-odd_even(start,end)
+# start = 0
+# end = 2
+# odd_even(start,end)
 
 
 def multiply(listy,mult):
@@ -17,6 +17,22 @@ def multiply(listy,mult):
         listy[i] *= mult
     return listy
 
-a = [2,4,10,16]
-b = 5
-print multiply(a,b)
+# a = [2,4,10,16]
+# b = 5
+# print multiply(a,b)
+
+
+def layered_multiples(listy):
+    '''Returns a two-dimensional list where each value is a list of 1's times the number in the original list. i.e., inputting [1,2,3] returns [[1],[1,1],[1,1,1]] '''
+    new_array = []
+    for val in listy:
+        #creates a new list for each value in the original list
+        internal = []
+        for i in range(0,val):
+            #adds 1s based on the value amount
+            internal.append(1)
+        new_array.append(internal) #adds the list to the final list
+    return new_array
+
+x = layered_multiples(multiply([2,4,5],3))
+print x
