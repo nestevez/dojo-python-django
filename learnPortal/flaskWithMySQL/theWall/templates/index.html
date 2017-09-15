@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>The Wall</title>
+  </head>
+  <body>
+    <h1>Welcome to The Wall!</h1>
+    <h2>We're happy to have you.</h2>
+    <h1>Log in to take a look at your messages!</h1>
+    {% with messages = get_flashed_messages(category_filter=['no_acct'])%}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <form action="/login" method="post">
+      <label>
+        Username: <input type="text" name="uname">
+      </label>
+      <br>
+      <label>
+        Password: <input type="password" name="pw">
+      </label>
+      <br>
+      <input type="submit" name="login" value="Log In">
+    </form>
+    <h1>Or, if you're not yet ONE OF US, join us now!</h1>
+    <form action="/process" method="post">
+      {% with messages = get_flashed_messages(category_filter=['fname']) %}
+        {% if messages %}
+          <ul class='flashes'>
+            {% for message in messages %}
+            <li>Error: {{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      <label>
+        First Name: <input type="text" name="fname" value={{session['fname']}}>
+      </label>
+      <br>
+      {% with messages = get_flashed_messages(category_filter=['lname']) %}
+        {% if messages %}
+          <ul class='flashes'>
+            {% for message in messages %}
+            <li>Error: {{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      <label>
+        Last Name: <input type="text" name="lname" value={{session['lname']}}>
+      </label>
+      <br>
+      {% with messages = get_flashed_messages(category_filter=['email']) %}
+        {% if messages %}
+          <ul class='flashes'>
+            {% for message in messages %}
+            <li>Error: {{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      <label>
+        Email: <input type="email" name="email" value={{session['email']}}>
+      </label>
+      <br>
+      {% with messages = get_flashed_messages(category_filter=['uname']) %}
+        {% if messages %}
+          <ul class='flashes'>
+            {% for message in messages %}
+            <li>Error: {{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      <label>
+        Username: <input type="text" name="uname" value="{{session['uname']}}">
+      </label>
+      <br>
+      {% with messages = get_flashed_messages(category_filter=['pw']) %}
+        {% if messages %}
+          <ul class='flashes'>
+            {% for message in messages %}
+            <li>Error: {{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      <label>
+        Password: <input type="password" name="password" value={{session['pw']}}>
+      </label>
+      <br>
+      <label>
+        Confirm Password: <input type="password" name="confirmation" value={{session['cpw']}}>
+      </label>
+      <br>
+      <input type="submit" value="Submit Form">
+    </form>
+  </body>
+</html>

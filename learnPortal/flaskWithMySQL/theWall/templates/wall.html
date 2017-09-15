@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{session['wallname']}}</title>
+  </head>
+  <body>
+    {% if session['home'] == True %}
+    <h1>Welcome home, {{session['wallname']}}</h1>
+    {% else %}
+    <h1>Leave a message on {{session['wallname']}}'s wall</h1>
+    <form action="/message" method="post">
+      <label>
+        Message text: <br><textarea name="message" rows="8" cols="80"></textarea>
+      </label>
+      <br>
+      <input type="submit" name="sendmessage" value="Send Message">
+    </form>
+    {% endif %}
+    <ul>
+      {% for i in range(0,session['numomsgs']) %}
+      <li>
+        <strong>{{session['auth'][i]}} - {{session['timestamp'][i]}}</strong>
+        <br>
+        <i>{{session['msgs'][i]}}</i>
+        <br>
+        <ul>
+          {% for j in range(0,session['numocmt']) %}
+          <li>
+            <strong>{{session['cmtauth'][j]}} - {{session['cmttimestamp'][j]}}</strong>
+            <br>
+            <i>{{session['cmts'][j]}}</i>
+            <br>
+          </li>
+          {% endfor %}
+        </ul>
+        <form action="/comment" method="post">
+          <label>
+            Comment: <br> <textarea name="cmt" rows="2" cols="80"></textarea>
+          </label>
+          <input type="hidden" name="msgid" value={{session['wallmsgs'][i]['id']}}>
+          <input type="submit" name="addcmt" value="Add Comment">
+        </form>
+      </li>
+
+      {% endfor %}
+    </ul>
+
+  </body>
+</html>
