@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="header">
+      <h2>Test App</h2>
+      <a href="/">Home</a>
+      <a href="{% url 'logregs:signin' %}">Sign In</a>
+    </div>
+    {% if messages %}
+    {% for message in messages %}
+    <p>{{message}}</p>
+    {% endfor %}
+    {% endif %}
+    <form action="{% url 'logregs:validreg' %}" method="post">
+      {% csrf_token %}
+      {{ form }}
+      <input type="submit" value="Register">
+    </form>
+    <a href="{% url 'logregs:signin' %}">Already have an account? Login</a>
+  </body>
+</html>

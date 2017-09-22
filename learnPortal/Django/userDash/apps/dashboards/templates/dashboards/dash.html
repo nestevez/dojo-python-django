@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{user_level}} Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="header">
+      <h2>Test App</h2>
+      <a href="{% url 'dash:user_dashboard' %}">Dashboard</a>
+      <a href="{% url 'users:edit_prof' %}">Profile</a>
+      <a href="{% url 'logregs:signin' %}">Log Off</a>
+    </div>
+    <div class="titular">
+      {% if user_level == "Manager" %}
+        <h1>Manage Users</h1>
+        <form action="{% url 'users:new_user' %}" method="get">
+          <input type="submit" value="Add New">
+        </form>
+      {% else %}
+        <h1>All Users</h1>
+      {% endif %}
+    </div>
+    </form>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>email</th>
+        <th>created_at</th>
+        <th>user_level</th>
+        {% if user_level == "Manager" %}
+        <th>actions</th>
+        {% endif %}
+      </tr>
+      {% for user in users %}
+      <tr>
+        <th>{{user.id}}</th>
+        <th><a href="{% url 'users:user_info' user.id %}">{{user.fname}} {{user.lname}}</a></th>
+        <th>{{user.email}}</th>
+        <th>{{user.created_at}}</th>
+        <th>{{user.access_level}}</th>
+        {% if user_level == "Manager" %}
+        <th><a href="{% url 'users:edit_user' user.id %}">edit</a> <a href="{% url 'users:delete' user.id %}"></a></th>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>
