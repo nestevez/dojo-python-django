@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Counter</title>
+  </head>
+  <body>
+    <h1>Counter</h1>
+    <h2>{{visits}} times</h2>
+    <form action="/twice" method="post">
+      <input type="submit" name="twice" value="+2" />
+    </form>
+    <form action="/reset" method="post">
+      <input type="submit" name="reset" value="Reset Counter">
+    </form>
+  </body>
+</html>

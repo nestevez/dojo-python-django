@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Nuclear Bomb, Cockroach, Foot</title>
+  </head>
+  <body>
+    <header>
+      <p>Wins: {{wins}}</p>
+      <p>Losses: {{losses}}</p>
+      <p>Ties: {{ties}}</p>
+    </header>
+    <h1>Nuclear Bomb Cockroach Foot</h1>
+    <p>{{message}}</p>
+    <form action="/process_play" method="post">
+      <input type="submit" name="move" value="Nuclear Bomb" />
+      <input type="submit" name="move" value="Cockroach" />
+      <input type="submit" name="move" value="Foot" />
+    </form>
+  </body>
+</html>

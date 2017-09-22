@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Registration Form</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(category_filter=['success']) %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <h1>Register!</h1>
+    <form action="/process" method="post">
+      {% with messages = get_flashed_messages(category_filter=['fname']) %}
+        {% if messages %}
+          <ul class='flashes'>
+            {% for message in messages %}
+            <li>Error: {{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      <label>
+        First Name: <input type="text" name="fname" value={{fname}}>
+      </label>
+      <br>
+      {% with messages = get_flashed_messages(category_filter=['lname']) %}
+        {% if messages %}
+          <ul class='flashes'>
+            {% for message in messages %}
+            <li>Error: {{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      <label>
+        Last Name: <input type="text" name="lname" value={{lname}}>
+      </label>
+      <br>
+      {% with messages = get_flashed_messages(category_filter=['email']) %}
+        {% if messages %}
+          <ul class='flashes'>
+            {% for message in messages %}
+            <li>Error: {{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      <label>
+        Email: <input type="email" name="email" value={{email}}>
+      </label>
+      <br>
+      {% with messages = get_flashed_messages(category_filter=['pw']) %}
+        {% if messages %}
+          <ul class='flashes'>
+            {% for message in messages %}
+            <li>Error: {{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      <label>
+        Password: <input type="password" name="password" value={{pw}}>
+      </label>
+      <br>
+      <label>
+        Confirm Password: <input type="password" name="confirmation" value={{cpw}}>
+      </label>
+      <br>
+      <input type="submit" value="Submit Form">
+    </form>
+    <form action="/" method="get">
+      <input type="submit" value="Restart">
+    </form>
+  </body>
+</html>

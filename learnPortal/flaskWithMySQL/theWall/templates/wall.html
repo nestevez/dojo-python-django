@@ -5,6 +5,12 @@
     <title>{{session['wallname']}}</title>
   </head>
   <body>
+    <header>
+      <p>
+        User: {{session['user'][0]['first_name']}} {{session['user'][0]['last_name']}}
+      </p>
+      <a href="/logout">Logout</a>
+    </header>
     {% if session['home'] == True %}
     <h1>Welcome home, {{session['wallname']}}</h1>
     {% else %}
@@ -18,21 +24,24 @@
     </form>
     {% endif %}
     <ul>
+      {% if session['wallmsgs'] %}
       {% for i in range(0,session['numomsgs']) %}
       <li>
-        <strong>{{session['auth'][i]}} - {{session['timestamp'][i]}}</strong>
+        <strong><a href="/wall/{{session['auth'][i]}}">{{session['auth'][i]}}</a> - {{session['timestamp'][i]}}</strong>
         <br>
         <i>{{session['msgs'][i]}}</i>
         <br>
         <ul>
-          {% for j in range(0,session['numocmt']) %}
+          {% if session['numocmt'][i] %}
+          {% for j in range(0,session['numocmt'][i]) %}
           <li>
-            <strong>{{session['cmtauth'][j]}} - {{session['cmttimestamp'][j]}}</strong>
+            <strong><a href="/wall/{{session['thesecmts'][i]['cmtauth'][j]}}">{{session['thesecmts'][i]['cmtauth'][j]}}</a> - {{session['thesecmts'][i]['cmttimestamp'][j]}}</strong>
             <br>
-            <i>{{session['cmts'][j]}}</i>
+            <i>{{session['thesecmts'][i]['cmts'][j]}}</i>
             <br>
           </li>
           {% endfor %}
+          {% endif %}
         </ul>
         <form action="/comment" method="post">
           <label>
@@ -42,8 +51,8 @@
           <input type="submit" name="addcmt" value="Add Comment">
         </form>
       </li>
-
       {% endfor %}
+      {% endif %}
     </ul>
 
   </body>

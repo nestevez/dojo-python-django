@@ -33,6 +33,9 @@ def cmt_check(idnum):
 
 @app.route('/')
 def index():
+    if 'loggedin' in session:
+        if session['loggedin']==True:
+            return redirect('/wall/{}'.format(session['user'][0]['username']))
     if 'message' not in session or session['message'] == False:
         session.clear()
         session['fname']=''
@@ -90,7 +93,8 @@ def process():
         data = {'fname':session['fname'],'lname':session['lname'], 'email':session['email'], 'uname':session['uname'],'pw':session['pw'], 'salt':session['salt']}
         mysql.query_db(query,data)
         session['user']=uname_check()
-        return redirect('/wall/{}'.format(session['user'][0]['id']))
+        session['loggedin'] = True
+        return redirect('/wall/{}'.format(session['user'][0]['username']))
     return redirect('/')
 
 @app.route('/login', methods=['post'])
@@ -98,50 +102,69 @@ def login():
     session['uname'] = request.form['uname']
     session['pw'] = request.form['pw']
     session['user'] = uname_check()
-    session['pw'] = md5.new(session['pw'] + session['user'][0]['salt']).hexdigest()
-    if len(session['user'])==0 or session['user'][0]['password'] != session['pw']:
+    print session['user']
+    if session['user']:
+        session['pw'] = md5.new(session['pw']+session['user'][0]['salt']).hexdigest()
+        print session['pw']
+        if session['user'][0]['password'] != session['pw']:
+            flash(u"Sorry, it looks like either this account does not exist or your password isn't quite right  - try again or register below!", 'no_acct')
+            session['message']=True
+            return redirect('/')
+        session['loggedin']=True
+        return redirect('/wall/{}'.format(session['user'][0]['username']))
+    else:
         flash(u"Sorry, it looks like either this account does not exist or your password isn't quite right  - try again or register below!", 'no_acct')
         session['message']=True
         return redirect('/')
-    return redirect('/wall/{}'.format(session['user'][0]['id']))
 
-@app.route('/wall/<idnum>')
-def wall_display(idnum):
-    session['user']=uname_check()
-    session['msgs']=[]
-    session['auth']=[]
-    session['timestamp']=[]
-    session['cmts']=[]
-    session['cmtauth']=[]
-    session['cmttimestamp']=[]
-    if int(session['user'][0]['id']) == int(idnum):
-        session['home'] = True
-        session['wallname']=session['user'][0]['first_name']+' '+session['user'][0]['last_name']
+@app.route('/wall/<uname>')
+def wall_display(uname):
+    if 'loggedin' not in session:
+        return redirect('/')
+    elif len(mysql.query_db('SELECT * FROM users WHERE username = :uname',{'uname':uname})) == 0 :
+        return redirect('/')
     else:
-        session['home'] = False
-        session['wall']= mysql.query_db('SELECT * FROM users WHERE id = {}'.format(idnum))
+        session['msgs']=[]
+        session['auth']=[]
+        session['timestamp']=[]
+        session['thesecmts']=[]
+        session['numocmt']=[]
+        session['wall']= mysql.query_db('SELECT * FROM users WHERE username = "{}"'.format(uname))
+        idnum=session['wall'][0]['id']
         session['wallname'] = session['wall'][0]['first_name'] + ' ' + session['wall'][0]['last_name']
-    session['wallmsgs']=msg_check(idnum)
-    print len(session['wallmsgs'])
-    if len(session['wallmsgs']) == 0:
-        session['msgs'].append('No messages yet!')
-    else:
-        session['numomsgs'] = len(session['wallmsgs'])
-        for i in range(0,session['numomsgs']):
-            session['msgs'].append(session['wallmsgs'][i]['message'])
-            username = mysql.query_db('SELECT username FROM users WHERE id={}'.format(session['wallmsgs'][i]['from_id']))
-            session['auth'].append(username[0]['username'])
-            session['timestamp'].append(session['wallmsgs'][i]['modified_at'])
-            session['msgcmts']=cmt_check(session['wallmsgs'][i]['id'])
-            session['numocmt'] = len(session['msgcmts'])
-            if session['numocmt'] != 0:
-                for i in range(0,session['numocmt']):
-                    session['cmts'].append(session['msgcmts'][i]['comment'])
-                    username = mysql.query_db('SELECT username FROM users WHERE id={}'.format(session['msgcmts'][i]['from_id']))
-                    session['cmtauth'].append(username[0]['username'])
-                    session['cmttimestamp'].append(session['msgcmts'][i]['modified_at'])
-    print session['msgs']
+        if int(session['user'][0]['id']) == int(idnum):
+            session['home'] = True
+        else:
+            session['home'] = False
+        session['wallmsgs']=msg_check(idnum)
+        if len(session['wallmsgs']) == 0:
+            session['msgs'].append('No messages yet!')
+        else:
+            session['numomsgs'] = len(session['wallmsgs'])
+            for i in range(0,session['numomsgs']):
+                cmts = []
+                cmtauth = []
+                cmttimestamp = []
+                session['msgs'].append(session['wallmsgs'][i]['message'])
+                username = mysql.query_db('SELECT username FROM users WHERE id={}'.format(session['wallmsgs'][i]['from_id']))
+                session['auth'].append(username[0]['username'])
+                session['timestamp'].append(session['wallmsgs'][i]['modified_at'])
+                msgcmts = cmt_check(session['wallmsgs'][i]['id'])
+                session['numocmt'].append(len(msgcmts))
+                if session['numocmt'][i] != 0:
+                    for j in range(0,session['numocmt'][i]):
+                        cmts.append(msgcmts[j]['comment'])
+                        username = mysql.query_db('SELECT username FROM users WHERE id={}'.format(msgcmts[j]['from_id']))
+                        cmtauth.append(username[0]['username'])
+                        cmttimestamp.append(msgcmts[j]['modified_at'])
+                session['thesecmts'].append({'cmts':cmts, 'cmtauth':cmtauth,'cmttimestamp':cmttimestamp})
     return render_template('wall.html')
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
 
 @app.route('/message', methods=['post'])
 def send_message():
@@ -151,7 +174,7 @@ def send_message():
     query = "INSERT INTO messages (message, from_id, to_id, created_at, modified_at) VALUES (:message, :fromid, :toid, NOW(), NOW())"
     data = {'message':wallmsg, 'fromid': fromid, 'toid':toid}
     mysql.query_db(query,data)
-    return redirect('/wall/{}'.format(session['wall'][0]['id']))
+    return redirect('/wall/{}'.format(session['wall'][0]['username']))
 
 @app.route('/comment', methods=['post'])
 def add_comment():
@@ -163,7 +186,7 @@ def add_comment():
     query = "INSERT INTO comments (message_id, comment, from_id, to_id, created_at, modified_at) VALUES (:messageid, :comment, :fromid, :toid, NOW(), NOW())"
     data = {'messageid': msgid, 'comment': cmt,'fromid': fromid, 'toid':toid}
     mysql.query_db(query,data)
-    return redirect('/wall/{}'.format(session['wall'][0]['id']))
+    return redirect('/wall/{}'.format(session['wall'][0]['username']))
 
 app.secret_key = 'key'
 app.run(debug=True)
