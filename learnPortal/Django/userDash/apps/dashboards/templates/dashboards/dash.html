@@ -36,13 +36,13 @@
       </tr>
       {% for user in users %}
       <tr>
-        <th>{{user.id}}</th>
-        <th><a href="{% url 'users:user_info' user.id %}">{{user.fname}} {{user.lname}}</a></th>
-        <th>{{user.email}}</th>
-        <th>{{user.created_at}}</th>
-        <th>{{user.access_level}}</th>
+        <td>{{user.id}}</td>
+        <td><a href="{% url 'users:user_info' user.id %}">{{user.fname}} {{user.lname}}</a></td>
+        <td>{{user.email}}</td>
+        <td>{{user.created_at}}</td>
+        <td>{{user.access_level}}</td>
         {% if user_level == "Manager" %}
-        <th><a href="{% url 'users:edit_user' user.id %}">edit</a> <a href="{% url 'users:delete' user.id %}"></a></th>
+        <td><a href="{% url 'users:edit_user' user.id %}">edit</a> <a href="{% url 'users:delete' user.id %}"></a></td>
         {% endif %}
       </tr>
       {% endfor %}
