@@ -5,6 +5,11 @@
     <title>Edit</title>
   </head>
   <body>
-
+    <div class="header">
+      <h2>Test App</h2>
+      <a href="{% url 'dash:user_dashboard' %}">Dashboard</a>
+      <a href="{% url 'users:edit_prof' %}">Profile</a>
+      <a href="{% url 'logregs:signin' %}">Log Off</a>
+    </div>
   </body>
 </html>

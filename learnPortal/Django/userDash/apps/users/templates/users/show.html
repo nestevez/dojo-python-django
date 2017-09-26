@@ -24,10 +24,20 @@
         <td>{{ user.description }}</td>
       </tr>
     </table>
-    <form action="{ url 'users:sendmsg'}" method="post">
+    <form action="{% url 'users:sendmsg' %}" method="post">
       {% csrf_token %}
       {{form}}
+      <input type="hidden" name="to_user" value="{{ user.id }}">
       <input type="submit" value="Post">
     </form>
+    {% if mssgs %}
+    {% for mssg in mssgs %}
+      <p>{{ mssg.from_user }} wrote</p>
+      <h3>{{ mssg.msg }}</h3>
+      <p><i>{{ mssg.created_at }}</i></p>
+
+
+    {% endfor %}
+    {% endif %}
   </body>
 </html>

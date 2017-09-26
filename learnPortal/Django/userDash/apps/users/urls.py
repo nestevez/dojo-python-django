@@ -6,5 +6,6 @@ urlpatterns = [
     url(r'^message/', views.msg, name='sendmsg'),
     url(r'^show/(?P<user_id>\d+)/', views.wall, name='user_info'),
     url(r'^edit/(?P<user_id>\d+)/', views.edit_user, name='edit_user'),
+    url(r'^submit_edit/', views.submit_edit, name='submit_edit')
     # url(r'^delete/(?P<user_id>\d+)/', views.delete, name='delete'),
 ]

@@ -32,7 +32,7 @@ def validreg(request):
     else:
         pwhash = bcrypt.hashpw(data['pw'].encode(), bcrypt.gensalt())
         Users.objects.create(fname=data['fname'], lname=data['lname'],email=data['email'], pw=pwhash)
-        request.session['user']=data['fname']
+        request.session['usr']=data['email']
         request.session['action']='registered'
         return redirect('dash:user_dashboard')
 
@@ -44,6 +44,6 @@ def validlog(request):
             messages.error(request, error, extra_tags=tag)
         return redirect(reverse('logregs:signin'))
     else:
-        request.session['user']=Users.objects.get(email=data['email']).fname
+        request.session['usr'] = data['email']
         request.session['action']='logged in'
         return redirect('dash:user_dashboard')

@@ -4,7 +4,7 @@ from django.db import models
 from ..logregs.models import *
 
 # Create your models here.
-class Messages(models.Model):
+class Mssgs(models.Model):
     msg = models.TextField()
     from_user = models.ForeignKey(Users, related_name="msgs_sent")
     to_user = models.ForeignKey(Users, related_name="msgs_received")
